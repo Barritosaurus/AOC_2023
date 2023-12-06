@@ -1,7 +1,7 @@
 local file = io.open("real_input", "r")
 local unpack = table.unpack
 
-function findOptimalHoldTime(max_time, record)
+function find_wins(max_time, record)
 	local possible_wins = 0
 
 	for holdTime = 0, max_time do
@@ -17,7 +17,6 @@ end
 
 if file then
 	local content = file:read("*a")
-	local starting = os.clock()
 	local lines = {}
 
 	for line in content:gmatch("[^\r\n]+") do
@@ -26,25 +25,19 @@ if file then
 
 	-- Correcting the pattern to capture four groups of numbers
 	local times = {}
-	for a, b, c, d in lines[1]:gmatch("Time:%s+(%d+)%s+(%d+)%s+(%d+)%s+(%d+)") do
-		local num = a .. b .. c .. d
-		times = { tonumber(num) }
-	end
+	local a, b, c, d = lines[1]:match("Time:%s+(%d+)%s+(%d+)%s+(%d+)%s+(%d+)")
+	local time = a .. b .. c .. d
+	times = { tonumber(time) }
 
 	local distances = {}
-	for a, b, c, d in lines[2]:gmatch("Distance:%s+(%d+)%s+(%d+)%s+(%d+)%s+(%d+)") do
-		local num = a .. b .. c .. d
-		distances = { tonumber(num) }
-	end
-
-	print(times[1])
-	print(distances[1])
+	local a, b, c, d = lines[2]:match("Distance:%s+(%d+)%s+(%d+)%s+(%d+)%s+(%d+)")
+	local dist = a .. b .. c .. d
+	distances = { tonumber(dist) }
 
 	local output = 1
-	local wins = findOptimalHoldTime(times[1], distances[1])
+	local wins = find_wins(times[1], distances[1])
 	output = wins * output
 
-	local end_time = os.clock() - starting
-	print("Output is : " .. output .. " | Time taken: " .. end_time .. " seconds")
+	print("Output is : " .. output)
 	file:close()
 end

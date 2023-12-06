@@ -1,7 +1,7 @@
 local file = io.open("real_input", "r")
 local unpack = table.unpack
 
-function findOptimalHoldTime(max_time, record)
+function find_wins(max_time, record)
 	local possible_wins = 0
 
 	for holdTime = 0, max_time do
@@ -41,7 +41,7 @@ if file then
 	local output = 1
 
 	for i = 1, 4 do
-		local wins = findOptimalHoldTime(times[i], distances[i])
+		local wins = find_wins(times[i], distances[i])
 
 		output = wins * output
 	end
